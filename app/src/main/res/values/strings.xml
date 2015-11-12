@@ -1,27 +1,39 @@
 <resources>
-    <string name="app_name">GW2Info</string>
+	<string name="app_name">GW2Info</string>
 
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+	<string name="title_section1">Section 1</string>
+	<string name="title_section2">Section 2</string>
+	<string name="title_section3">Section 3</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+	<string name="navigation_drawer_open">Open navigation drawer</string>
+	<string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_example">Example action</string>
+	<string name="action_example">Example action</string>
 
-    <string name="action_settings">Settings</string>
+	<string name="action_settings">Settings</string>
 
-    <!-- Nav Drawer Menu Names-->
-    <string-array name="nav_drawer_items">
-        <item>Overview</item>
-        <item>Personal</item>
-        <item>W</item>
-    </string-array>
-    <string name="title_activity_main">MainActivity</string>
+	<!-- Nav Drawer Menu Names-->
+	<string-array name="nav_drawer_items">
+		<item>Overview</item>
+		<item>Personal</item>
+		<item>World Bosses</item>
+		<item>Personal Timers</item>
+	</string-array>
 
-    <string name="hello_world">Hello world!</string>
+	<string-array name="nav_drawer_personal_items">
+		<item>Bank</item>'
+		<item>Materials</item>
+		<item>Characters</item>
+	</string-array>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+	<string name="drawer_open">Open</string>
+	<string name="drawer_close">Close</string>
+
+
+	<string name="title_activity_main">MainActivity</string>
+
+	<string name="hello_world">Hello world!</string>
+
+	<!-- TODO: Remove or change this placeholder text -->
+	<string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
