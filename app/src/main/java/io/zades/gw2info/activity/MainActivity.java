@@ -7,11 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
+import android.widget.Toast;
 import io.zades.gw2info.R;
 import io.zades.gw2info.adapters.NavigationDrawerAdapter;
+
+import static android.view.GestureDetector.*;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity
 	private RecyclerView.LayoutManager mLayoutManager;
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
+	private GestureDetector mGestureDetector;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity
 		// and header view profile picture
 
 		mRecyclerView.setAdapter(mAdapter);                              // Setting the adapter to RecyclerView
-		mLayoutManager = new LinearLayoutManager(this);                 // Creating a layout Manager
+		mLayoutManager = new LinearLayoutManager(getApplicationContext());                 // Creating a layout Manager
 		mRecyclerView.setLayoutManager(mLayoutManager);                 // Setting the layout Manager
 
 
@@ -69,6 +71,39 @@ public class MainActivity extends AppCompatActivity
 		}; // Drawer Toggle Object Made
 		mDrawerLayout.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
 		mDrawerToggle.syncState();
+
+		//follow code handles touch events on the navigation drawer
+		mGestureDetector = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener()
+		{
+			@Override
+			public boolean onSingleTapUp(MotionEvent e)
+			{
+				return true;
+			}
+		});
+
+		mRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener()
+		{
+			@Override
+			public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e)
+			{
+				View child = mRecyclerView.findChildViewUnder(e.getX(), e.getY());
+
+				if (child != null && mGestureDetector.onTouchEvent(e))
+				{
+					mDrawerLayout.closeDrawers();
+					Toast.makeText(MainActivity.this, "The Item Clicked is: " + mRecyclerView.getChildPosition(child), Toast.LENGTH_SHORT).show();
+					return true;
+				}
+				return false;
+			}
+
+			@Override
+			public void onTouchEvent(RecyclerView rv, MotionEvent e)
+			{
+
+			}
+		});
 
 	}
 
