@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity
 	private RecyclerView.LayoutManager mLayoutManager;
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
-	private GestureDetector mGestureDetector;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -71,40 +70,6 @@ public class MainActivity extends AppCompatActivity
 		}; // Drawer Toggle Object Made
 		mDrawerLayout.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
 		mDrawerToggle.syncState();
-
-		//follow code handles touch events on the navigation drawer
-		mGestureDetector = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener()
-		{
-			@Override
-			public boolean onSingleTapUp(MotionEvent e)
-			{
-				return true;
-			}
-		});
-
-		mRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener()
-		{
-			@Override
-			public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e)
-			{
-				View child = mRecyclerView.findChildViewUnder(e.getX(), e.getY());
-
-				if (child != null && mGestureDetector.onTouchEvent(e))
-				{
-					mDrawerLayout.closeDrawers();
-					Toast.makeText(MainActivity.this, "The Item Clicked is: " + mRecyclerView.getChildPosition(child), Toast.LENGTH_SHORT).show();
-					return true;
-				}
-				return false;
-			}
-
-			@Override
-			public void onTouchEvent(RecyclerView rv, MotionEvent e)
-			{
-
-			}
-		});
-
 	}
 
 

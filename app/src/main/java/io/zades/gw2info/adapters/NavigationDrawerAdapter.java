@@ -1,12 +1,14 @@
 package io.zades.gw2info.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import io.zades.gw2info.R;
 
 /**
@@ -19,6 +21,8 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 	// IF the view under inflation and population is header or Item
 	private static final int TYPE_ITEM = 1;
 
+	private Context mContext;
+
 	private String mNavTitles[]; // Stores titles
 	private int mIcons[];       // Stores icons
 
@@ -28,7 +32,8 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 
 	public NavigationDrawerAdapter(Context context)
 	{
-		mNavTitles = context.getResources().getStringArray(R.array.nav_drawer_items);
+		mContext = context;
+		mNavTitles = mContext.getResources().getStringArray(R.array.nav_drawer_items);
 		//icons
 		//TODO: remove hardcode
 		name = "TestName";
@@ -42,14 +47,14 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 		if(viewType == TYPE_ITEM)
 		{
 			View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_row_navigation, viewGroup, false);
-			ViewHolder viewHolderItem = new ViewHolder(v, viewType);
+			ViewHolder viewHolderItem = new ViewHolder(v, viewType, mContext);
 			return  viewHolderItem;
 
 		}
 		else if(viewType == TYPE_HEADER)
 		{
 			View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.header_navigation, viewGroup, false);
-			ViewHolder viewHolderItem = new ViewHolder(v, viewType);
+			ViewHolder viewHolderItem = new ViewHolder(v, viewType, mContext);
 			return  viewHolderItem;
 		}
 		return null;
@@ -88,7 +93,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 	}
 
 
-	public static class ViewHolder extends RecyclerView.ViewHolder
+	public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 	{
 		public int holderId;
 
@@ -98,12 +103,18 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 		public TextView email;
 		public ImageView profile;
 
-		public ViewHolder(View itemView, int viewType)
+		private Context mContext;
+
+		public ViewHolder(View itemView, int viewType, Context context)
 		{
 			super(itemView);
+			mContext = context;
 
 			if (viewType == TYPE_ITEM)
 			{
+				itemView.setClickable(true);
+				itemView.setOnClickListener(this);
+
 				textView = (TextView) itemView.findViewById(R.id.text_nav_row);
 				imageView = (ImageView) itemView.findViewById(R.id.image_nav_row);
 				holderId = 1;
@@ -115,6 +126,13 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 				profile = (ImageView) itemView.findViewById(R.id.image_circle_nav_header);
 				holderId = 0;
 			}
+		}
+
+		@Override
+		public void onClick(View v)
+		{
+			Toast.makeText(mContext, "The Item Clicked is: " + getPosition(), Toast.LENGTH_SHORT).show();
+
 		}
 	}
 }
