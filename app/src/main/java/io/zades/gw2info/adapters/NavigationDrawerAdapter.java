@@ -1,7 +1,6 @@
 package io.zades.gw2info.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +16,9 @@ import io.zades.gw2info.R;
 public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDrawerAdapter.ViewHolder>
 {
 
-	private static final int TYPE_HEADER = 0;    // Declaring Variable to Understand which View is being worked on
+	public static final int TYPE_HEADER = 0;    // Declaring Variable to Understand which View is being worked on
 	// IF the view under inflation and population is header or Item
-	private static final int TYPE_ITEM = 1;
+	public static final int TYPE_ITEM = 1;
 
 	private Context mContext;
 
@@ -46,7 +45,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 	{
 		if(viewType == TYPE_ITEM)
 		{
-			View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_row_navigation, viewGroup, false);
+			View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_parent_navigation_row, viewGroup, false);
 			ViewHolder viewHolderItem = new ViewHolder(v, viewType, mContext);
 			return  viewHolderItem;
 

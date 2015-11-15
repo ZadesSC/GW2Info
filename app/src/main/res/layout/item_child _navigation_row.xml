@@ -14,7 +14,7 @@
 	<ImageView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:id="@+id/image_nav_row"
+			android:id="@+id/image_child_nav_row"
 			android:paddingLeft="16dp"/>
 	<!--android:src="@drawable/ic_launcher"/>-->
 
@@ -25,6 +25,6 @@
 			android:paddingTop="4dp"
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:text="Medium Text"
-			android:id="@+id/text_nav_row"/>
+			android:id="@+id/text_child_nav_row"/>
 
 </LinearLayout>
