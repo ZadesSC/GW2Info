@@ -2,13 +2,16 @@ package io.zades.gw2info.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import de.greenrobot.event.EventBus;
 import io.zades.gw2info.R;
+import io.zades.gw2info.events.NavigationParentClickedEvent;
 import io.zades.gw2info.models.BasicNavigationModel;
 import io.zades.gw2info.models.ChildNavigationModel;
 import io.zades.gw2info.models.ParentNavigationModel;
@@ -23,6 +26,7 @@ import java.util.List;
  */
 public class NavigationDrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
+	private static final String TAG = "NavigationDrawerAdapter";
 
 	public static final int TYPE_HEADER = 0;
 	public static final int TYPE_PARENT = 1;
@@ -31,10 +35,12 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<RecyclerView.V
 	private static final int NAV_DRAWER_TITLE_ARRAY = R.array.nav_drawer_items;
 	private static final int NAV_DRAWER_PERSONAL_ARRAY = R.array.nav_drawer_personal_items;
 
+	//TODO: remove hardcode
 	private static final String NAV_HEADER_EMAIL = "test@test.com";
 	private static final String NAV_HEADER_NAME = "Test Name";
 	private static final int NAV_HEADER_PROFILE = R.drawable.ic_default_profile;
 
+	private EventBus eventBus = EventBus.getDefault();
 	private Context mContext;
 
 	private List<ParentNavigationModel> mNavItems;
@@ -42,6 +48,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
 	public NavigationDrawerAdapter(Context context)
 	{
+		eventBus.register(this);
 		mContext = context;
 		mNavItems = new ArrayList<>();
 		mCurrentViewableList = new ArrayList<>();
@@ -106,6 +113,27 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<RecyclerView.V
 		return mCurrentViewableList.get(position).getViewType();
 	}
 
+	public void onEvent(NavigationParentClickedEvent event)
+	{
+		Toast.makeText(mContext, "The Item Clicked is: " + event.getParentPosition(), Toast.LENGTH_SHORT).show();
+
+		ParentNavigationModel parent = (ParentNavigationModel) mCurrentViewableList.get(event.getParentPosition());
+
+		if(parent.getChildNodes() == null)
+		{
+			return;
+		}
+
+		if(parent.getIsExpanded())
+		{
+			collapseParent(event.getParentPosition());
+		}
+		else
+		{
+			expandParent(event.getParentPosition());
+		}
+	}
+
 	private void createData()
 	{
 		String[] navTitles = mContext.getResources().getStringArray(NAV_DRAWER_TITLE_ARRAY);
@@ -118,7 +146,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<RecyclerView.V
 			ParentNavigationModel parent;
 			switch (title)
 			{
-				case "PERSONAL":
+				case "Personal":
 					parent = new ParentNavigationModel(title, 0, TYPE_PARENT, createChildData(personalTitles));
 					add(parent);
 					break;
@@ -145,6 +173,48 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<RecyclerView.V
 	{
 		mNavItems.add(parent);
 		mCurrentViewableList.add(parent);
+	}
+
+	private void expandParent(int parentPosition)
+	{
+		if(mCurrentViewableList.get(parentPosition).getViewType() != TYPE_PARENT)
+		{
+			Log.e(TAG, "Method expandParent evoked but is not a parent at position " + parentPosition);
+			return;
+		}
+
+		ParentNavigationModel parent = (ParentNavigationModel) mCurrentViewableList.get(parentPosition);
+
+		if(parent.getIsExpanded())
+		{
+			Log.e(TAG, "Method expandParent evoked but parent already expanded");
+			return;
+		}
+
+		mCurrentViewableList.addAll(parentPosition + 1, parent.getChildNodes());
+		parent.setIsExpanded(true);
+		notifyItemRangeInserted(parentPosition + 1, parent.getChildNodes().size());
+	}
+
+	private void collapseParent(int parentPosition)
+	{
+		if(mCurrentViewableList.get(parentPosition).getViewType() != TYPE_PARENT)
+		{
+			Log.e(TAG, "Method collapseParent evoked but is not a parent at position " + parentPosition);
+			return;
+		}
+
+		ParentNavigationModel parent = (ParentNavigationModel) mCurrentViewableList.get(parentPosition);
+
+		if(!parent.getIsExpanded())
+		{
+			Log.e(TAG, "Method collapseParent evoked but parent already collapsed");
+			return;
+		}
+
+		mCurrentViewableList.removeAll(parent.getChildNodes());
+		parent.setIsExpanded(false);
+		notifyItemRangeRemoved(parentPosition + 1, parent.getChildNodes().size());
 	}
 
 

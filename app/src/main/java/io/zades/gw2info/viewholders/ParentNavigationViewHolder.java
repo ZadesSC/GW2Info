@@ -5,13 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import de.greenrobot.event.EventBus;
 import io.zades.gw2info.R;
 import io.zades.gw2info.adapters.NavigationDrawerAdapter;
+import io.zades.gw2info.events.NavigationParentClickedEvent;
 
 /**
  * Created by zades on 11/15/2015.
  */
-public class ParentNavigationViewHolder extends RecyclerView.ViewHolder
+public class ParentNavigationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 {
 	public int holderId;
 
@@ -31,7 +33,7 @@ public class ParentNavigationViewHolder extends RecyclerView.ViewHolder
 		if (viewType == NavigationDrawerAdapter.TYPE_PARENT)
 		{
 			itemView.setClickable(true);
-			//itemView.setOnClickListener(this);
+			itemView.setOnClickListener(this);
 
 			textView = (TextView) itemView.findViewById(R.id.text_parent_nav_row);
 			imageView = (ImageView) itemView.findViewById(R.id.image_parent_nav_row);
@@ -43,6 +45,19 @@ public class ParentNavigationViewHolder extends RecyclerView.ViewHolder
 			email = (TextView) itemView.findViewById(R.id.text_nav_header_email);
 			profile = (ImageView) itemView.findViewById(R.id.image_circle_nav_header);
 			holderId = 0;
+		}
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		switch (getItemViewType())
+		{
+			case NavigationDrawerAdapter.TYPE_HEADER:
+				break;
+			case NavigationDrawerAdapter.TYPE_PARENT:
+				EventBus.getDefault().post(new NavigationParentClickedEvent(getPosition()));
+				break;
 		}
 	}
 }
