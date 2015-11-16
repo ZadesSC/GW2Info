@@ -1,18 +1,17 @@
 package io.zades.gw2info.viewholders;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.bignerdranch.expandablerecyclerview.ViewHolder.ParentViewHolder;
 import io.zades.gw2info.R;
 import io.zades.gw2info.adapters.NavigationDrawerAdapter;
 
 /**
  * Created by zades on 11/15/2015.
  */
-public class ParentNavigationViewHolder extends ParentViewHolder implements View.OnClickListener
+public class ParentNavigationViewHolder extends RecyclerView.ViewHolder
 {
 	public int holderId;
 
@@ -29,10 +28,10 @@ public class ParentNavigationViewHolder extends ParentViewHolder implements View
 		super(itemView);
 		mContext = context;
 
-		if (viewType == NavigationDrawerAdapter.TYPE_ITEM)
+		if (viewType == NavigationDrawerAdapter.TYPE_PARENT)
 		{
 			itemView.setClickable(true);
-			itemView.setOnClickListener(this);
+			//itemView.setOnClickListener(this);
 
 			textView = (TextView) itemView.findViewById(R.id.text_parent_nav_row);
 			imageView = (ImageView) itemView.findViewById(R.id.image_parent_nav_row);
@@ -45,11 +44,5 @@ public class ParentNavigationViewHolder extends ParentViewHolder implements View
 			profile = (ImageView) itemView.findViewById(R.id.image_circle_nav_header);
 			holderId = 0;
 		}
-	}
-
-	@Override
-	public void onClick(View v)
-	{
-		Toast.makeText(mContext, "The Item Clicked is: " + getLayoutPosition(), Toast.LENGTH_SHORT).show();
 	}
 }

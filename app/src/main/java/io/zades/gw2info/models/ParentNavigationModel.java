@@ -1,24 +1,28 @@
 package io.zades.gw2info.models;
 
-import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
 
 import java.util.List;
 
 /**
  * Created by zades on 11/15/2015.
  */
-public class ParentNavigationModel implements ParentListItem
+public class ParentNavigationModel extends BasicNavigationModel
 {
-	private List<ChildNavigationModel> mCildItemList;
-	@Override
-	public List<?> getChildItemList()
+	private List<ChildNavigationModel> mChildNodes;
+
+	public ParentNavigationModel(String text, int icon, int viewType, List<ChildNavigationModel> childNodes)
 	{
-		return null;
+		super(text, icon, viewType);
+		mChildNodes = childNodes;
 	}
 
-	@Override
-	public boolean isInitiallyExpanded()
+	public List<ChildNavigationModel> getChildNodes()
 	{
-		return false;
+		return mChildNodes;
+	}
+
+	public void setmChildNodes(List<ChildNavigationModel> childNodes)
+	{
+		mChildNodes = childNodes;
 	}
 }
