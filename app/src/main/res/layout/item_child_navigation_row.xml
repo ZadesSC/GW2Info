@@ -8,22 +8,22 @@
 			  android:focusable="true"
 			  android:foreground="?android:attr/selectableItemBackground"
 			  android:background="?android:selectableItemBackground"
-			  android:orientation="horizontal">
+			  android:orientation="horizontal" android:weightSum="1">
 
 
 	<ImageView
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:layout_height="match_parent"
 			android:id="@+id/image_child_nav_row"
-			android:paddingLeft="16dp"/>
+			android:paddingLeft="16dp" android:layout_weight="0.12"/>
 	<!--android:src="@drawable/ic_launcher"/>-->
 
 	<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:paddingLeft="12dp"
+			android:paddingLeft="24dp"
 			android:paddingTop="4dp"
-			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:textAppearance="?android:attr/textAppearanceSmall"
 			android:text="Medium Text"
 			android:id="@+id/text_child_nav_row"/>
 

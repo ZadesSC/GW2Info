@@ -2,6 +2,7 @@ package io.zades.gw2info.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
 	private EventBus eventBus = EventBus.getDefault();
 	private Context mContext;
+	private LayoutInflater mInflater;
 
 	private List<ParentNavigationModel> mNavItems;
 	private List<BasicNavigationModel> mCurrentViewableList;
@@ -50,6 +52,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<RecyclerView.V
 	{
 		eventBus.register(this);
 		mContext = context;
+		mInflater = LayoutInflater.from(mContext);
 		mNavItems = new ArrayList<>();
 		mCurrentViewableList = new ArrayList<>();
 		createData();
@@ -63,15 +66,15 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<RecyclerView.V
 		switch (viewType)
 		{
 			case TYPE_HEADER:
-				v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.header_navigation, viewGroup, false);
+				v = mInflater.inflate(R.layout.header_navigation, viewGroup, false);
 				viewHolderItem = new ParentNavigationViewHolder(v, viewType, mContext);
 				return  viewHolderItem;
 			case TYPE_PARENT:
-				v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_parent_navigation_row, viewGroup, false);
+				v = mInflater.inflate(R.layout.item_parent_navigation_row, viewGroup, false);
 				viewHolderItem = new ParentNavigationViewHolder(v, viewType, mContext);
 				return  viewHolderItem;
 			case TYPE_CHILD:
-				v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_child_navigation_row, viewGroup, false);
+				v = mInflater.inflate(R.layout.item_child_navigation_row, viewGroup, false);
 				viewHolderItem = new ChildNavigationViewHolder(v, mContext);
 				return  viewHolderItem;
 		}
