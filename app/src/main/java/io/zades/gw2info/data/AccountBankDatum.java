@@ -2,11 +2,9 @@ package io.zades.gw2info.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Generated("org.jsonschema2pojo")
 public class AccountBankDatum
 {
 
@@ -18,10 +16,10 @@ public class AccountBankDatum
 	private Integer count;
 	@SerializedName("upgrades")
 	@Expose
-	private List<Integer> upgrades = new ArrayList<Integer>();
+	private List<Integer> upgrades = new ArrayList<>();
 	@SerializedName("infusions")
 	@Expose
-	private List<Integer> infusions = new ArrayList<Integer>();
+	private List<Integer> infusions = new ArrayList<>();
 	@SerializedName("skin")
 	@Expose
 	private Integer skin;

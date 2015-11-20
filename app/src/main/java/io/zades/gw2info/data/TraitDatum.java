@@ -3,11 +3,9 @@ package io.zades.gw2info.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Generated("org.jsonschema2pojo")
 public class TraitDatum {
 
 	@SerializedName("id")
@@ -200,7 +198,6 @@ public class TraitDatum {
 		this.traitedFacts = traitedFacts;
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Fact {
 
 		@SerializedName("text")
@@ -332,7 +329,6 @@ public class TraitDatum {
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class TraitedFact {
 
 		@SerializedName("text")

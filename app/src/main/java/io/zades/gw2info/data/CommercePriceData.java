@@ -1,10 +1,8 @@
 package io.zades.gw2info.data;
 
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Generated("org.jsonschema2pojo")
 public class CommercePriceData {
 
 	@SerializedName("id")
@@ -71,7 +69,6 @@ public class CommercePriceData {
 		this.sells = sells;
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Buys {
 
 		@SerializedName("quantity")
@@ -119,7 +116,6 @@ public class CommercePriceData {
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Sells {
 
 		@SerializedName("quantity")

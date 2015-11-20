@@ -51,7 +51,7 @@ public class NavigationDrawerFragment extends Fragment
 		mToolbar = (Toolbar) getActivity().findViewById(R.id.app_bar);
 		mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
 
-		mRecyclerView.setHasFixedSize(true);                            // Letting the system know that the list objects are of fixed size
+		mRecyclerView.setHasFixedSize(false);                            // Letting the system know that the list objects are of fixed size
 		mAdapter = new NavigationDrawerAdapter(getContext());       // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
 
 		mRecyclerView.setAdapter(mAdapter);                              // Setting the adapter to RecyclerView

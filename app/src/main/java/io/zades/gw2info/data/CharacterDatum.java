@@ -2,11 +2,9 @@ package io.zades.gw2info.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Generated("org.jsonschema2pojo")
 public class CharacterDatum
 {
 
@@ -285,7 +283,6 @@ public class CharacterDatum
 	}
 
 
-	@Generated("org.jsonschema2pojo")
 	public class Bag {
 
 		@SerializedName("id")
@@ -354,7 +351,6 @@ public class CharacterDatum
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Crafting {
 
 		@SerializedName("discipline")
@@ -423,7 +419,6 @@ public class CharacterDatum
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Equipment {
 
 		@SerializedName("id")
@@ -534,7 +529,6 @@ public class CharacterDatum
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Inventory {
 
 		@SerializedName("id")
@@ -666,7 +660,6 @@ public class CharacterDatum
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Pve {
 
 		@SerializedName("id")
@@ -714,7 +707,6 @@ public class CharacterDatum
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Pvp {
 
 		@SerializedName("id")
@@ -762,7 +754,6 @@ public class CharacterDatum
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Specializations {
 
 		@SerializedName("pve")
@@ -831,7 +822,6 @@ public class CharacterDatum
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Wvw {
 
 		@SerializedName("id")

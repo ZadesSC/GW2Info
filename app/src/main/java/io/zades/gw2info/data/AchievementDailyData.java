@@ -2,11 +2,9 @@ package io.zades.gw2info.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Generated("org.jsonschema2pojo")
 public class AchievementDailyData
 {
 
@@ -74,7 +72,6 @@ public class AchievementDailyData
 		this.wvw = wvw;
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Level {
 
 		@SerializedName("min")
@@ -121,7 +118,6 @@ public class AchievementDailyData
 		}
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Level_ {
 
 		@SerializedName("min")
@@ -168,7 +164,6 @@ public class AchievementDailyData
 		}
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Level__ {
 
 		@SerializedName("min")
@@ -216,7 +211,6 @@ public class AchievementDailyData
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Pve {
 
 		@SerializedName("id")
@@ -264,7 +258,6 @@ public class AchievementDailyData
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Pvp {
 
 		@SerializedName("id")
@@ -312,7 +305,6 @@ public class AchievementDailyData
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Wvw {
 
 		@SerializedName("id")

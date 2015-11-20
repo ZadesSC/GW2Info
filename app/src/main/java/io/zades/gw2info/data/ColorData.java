@@ -2,11 +2,9 @@ package io.zades.gw2info.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Generated("org.jsonschema2pojo")
 public class ColorData {
 
 	@SerializedName("id")
@@ -178,7 +176,6 @@ public class ColorData {
 		this.categories = categories;
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Cloth {
 
 		@SerializedName("brightness")
@@ -310,7 +307,6 @@ public class ColorData {
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Leather {
 
 		@SerializedName("brightness")
@@ -442,7 +438,6 @@ public class ColorData {
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Metal {
 
 		@SerializedName("brightness")

@@ -1,12 +1,8 @@
 package io.zades.gw2info.data;
 
-
-import javax.annotation.Generated;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Generated("org.jsonschema2pojo")
 public class PvpStatData
 {
 
@@ -87,7 +83,6 @@ public class PvpStatData
 		this.ladders = ladders;
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Aggregate
 	{
 
@@ -190,7 +185,6 @@ public class PvpStatData
 	}
 
 
-	@Generated("org.jsonschema2pojo")
 	public class Ladders
 	{
 
@@ -235,7 +229,6 @@ public class PvpStatData
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Ranked
 	{
 
@@ -337,7 +330,6 @@ public class PvpStatData
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Unranked
 	{
 
@@ -439,7 +431,6 @@ public class PvpStatData
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Professions
 	{
 
@@ -573,7 +564,6 @@ public class PvpStatData
 			this.warrior = warrior;
 		}
 
-		@Generated("org.jsonschema2pojo")
 		public class ProfessionBase
 		{
 

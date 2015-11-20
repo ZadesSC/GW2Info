@@ -1,0 +1,15 @@
+<android.support.v4.widget.SwipeRefreshLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/refresh_personal_bank"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:visibility="gone">
+
+<android.support.v7.widget.RecyclerView
+		android:id="@+id/recycle_view_personal_bank"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="#FFFFFF"
+		android:scrollbars="vertical"/>
+
+</android.support.v4.widget.SwipeRefreshLayout>

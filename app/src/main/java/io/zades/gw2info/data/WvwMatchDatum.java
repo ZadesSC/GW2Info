@@ -2,11 +2,9 @@ package io.zades.gw2info.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Generated("org.jsonschema2pojo")
 public class WvwMatchDatum {
 
 	@SerializedName("id")
@@ -178,7 +176,6 @@ public class WvwMatchDatum {
 		this.maps = maps;
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Deaths {
 
 		@SerializedName("red")
@@ -247,7 +244,6 @@ public class WvwMatchDatum {
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Kills {
 
 		@SerializedName("red")
@@ -316,7 +312,6 @@ public class WvwMatchDatum {
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Map {
 
 		@SerializedName("id")
@@ -469,7 +464,6 @@ public class WvwMatchDatum {
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Objective {
 
 		@SerializedName("id")
@@ -601,7 +595,6 @@ public class WvwMatchDatum {
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Scores {
 
 		@SerializedName("red")
@@ -670,7 +663,6 @@ public class WvwMatchDatum {
 
 	}
 
-	@Generated("org.jsonschema2pojo")
 	public class Worlds {
 
 		@SerializedName("red")
