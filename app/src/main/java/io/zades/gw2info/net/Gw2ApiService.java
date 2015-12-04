@@ -1,6 +1,6 @@
 package io.zades.gw2info.net;
 
-import io.zades.gw2info.data.*;
+import io.zades.gw2info.data.pojo.*;
 import retrofit.Call;
 import retrofit.http.GET;
 import retrofit.http.Header;

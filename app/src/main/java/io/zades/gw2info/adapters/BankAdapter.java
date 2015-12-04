@@ -1,6 +1,6 @@
 package io.zades.gw2info.adapters;
 
-import android.accounts.Account;
+import android.content.ClipData;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,21 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import io.zades.gw2info.R;
-import io.zades.gw2info.data.AccountBankDatum;
-import io.zades.gw2info.data.ItemDatum;
+import io.zades.gw2info.data.ItemTable;
+import io.zades.gw2info.data.pojo.AccountBankDatum;
+import io.zades.gw2info.data.pojo.ItemDatum;
+import io.zades.gw2info.models.AdvancedRecyclerViewChildDataModel;
+import io.zades.gw2info.models.AdvancedRecyclerViewParentDataModel;
 import io.zades.gw2info.models.BankChildModel;
 import io.zades.gw2info.models.BankParentModel;
 import io.zades.gw2info.net.Gw2Api;
 import io.zades.gw2info.viewholders.BankChildViewHolder;
 import io.zades.gw2info.viewholders.BankParentViewHolder;
-import io.zades.gw2info.viewholders.ParentNavigationViewHolder;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by zades on 12/4/2015.
@@ -35,9 +32,12 @@ public class BankAdapter extends AbstractAdvancedRecyclerViewAdapter<BankParentM
 	public static final int TYPE_CHILD = 1;
 
 	private final Gw2Api sApi = Gw2Api.getInstance();
+	private final ItemTable sItemTable = ItemTable.getInstance();
 
 	private Context mContext;
 	private LayoutInflater mInflator;
+
+	private int dataPtr = 0;
 
 	public BankAdapter(Context context)
 	{
@@ -80,7 +80,15 @@ public class BankAdapter extends AbstractAdvancedRecyclerViewAdapter<BankParentM
 				BankChildViewHolder castedChild = (BankChildViewHolder) holder;
 				if(mDataModel.getChildData(pair.first, pair.second).getItemData() != null)
 				{
-					castedChild.textView.setText(mDataModel.getChildData(pair.first, pair.second).getItemData().getId() + "");
+					Long id = mDataModel.getChildData(pair.first, pair.second).getItemData().getId();
+					if(sItemTable.getItemData(id) == null)
+					{
+						castedChild.textView.setText("Item ID: " + id);
+					}
+					else
+					{
+						castedChild.textView.setText(sItemTable.getItemData(id).getName());
+					}
 				}
 				else
 				{
@@ -90,10 +98,38 @@ public class BankAdapter extends AbstractAdvancedRecyclerViewAdapter<BankParentM
 		}
 	}
 
+	public void resetData()
+	{
+		super.resetData();
+		dataPtr = 0;
+	}
+
+	//dont need anymore, should never be called
 	public synchronized void loadBankData(List<ItemDatum> data)
 	{
-		//skip for now?
 		//need to find value and dump the data in it so yea
+
+		for(int x = 0; x < mDataModel.getParentCount(); x++)
+		{
+			AdvancedRecyclerViewParentDataModel<BankParentModel, BankChildModel> parent = mDataModel.getParent(x);
+			for(int y = 0; y < parent.getChildCount(); y++)
+			{
+				AdvancedRecyclerViewChildDataModel<BankChildModel> child = mDataModel.getChild(x, y);
+				if(child.getChildData().getItemData() != null)
+				{
+					if(child.getChildData().getItemData().getId() == data.get(dataPtr).getId())
+					{
+						child.getChildData().setItemData(data.get(dataPtr));
+						dataPtr++;
+					}
+					else
+					{
+						Log.e(TAG, "Non Matching Ids in data");
+					}
+				}
+			}
+		}
+
 	}
 
 	public synchronized void loadItemNumbers(List<AccountBankDatum> data)

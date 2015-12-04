@@ -1,11 +1,8 @@
 package io.zades.gw2info.fragments;
 
 
-import android.content.ClipData;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,13 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.Toast;
-import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
-import com.h6ah4i.android.widget.advrecyclerview.animator.RefactoredDefaultItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 import io.zades.gw2info.R;
 import io.zades.gw2info.adapters.BankAdapter;
-import io.zades.gw2info.data.AccountBankDatum;
-import io.zades.gw2info.data.ItemDatum;
+import io.zades.gw2info.data.ItemTable;
+import io.zades.gw2info.data.pojo.AccountBankDatum;
+import io.zades.gw2info.data.pojo.ItemDatum;
 import io.zades.gw2info.net.Gw2Api;
 import retrofit.Call;
 import retrofit.Callback;
@@ -39,6 +35,7 @@ public class PersonalBankFragment extends Fragment implements RecyclerViewExpand
 {
 	private final static String TAG = "PersonalBankFragment";
 	private final Gw2Api sApi = Gw2Api.getInstance();
+	private final ItemTable sItemTable = ItemTable.getInstance();
 
 	private Toolbar mToolbar;
 	private RecyclerView mRecyclerView;
@@ -130,28 +127,45 @@ public class PersonalBankFragment extends Fragment implements RecyclerViewExpand
 						ids[x] = response.body().get(x).getId();
 					}
 				}
-				//get item data
-//				Call<List<ItemDatum>> itemCall = sApi.getItems(ids);
-//				itemCall.enqueue(new Callback<List<ItemDatum>>()
-//				{
-//					@Override
-//					public void onResponse(Response<List<ItemDatum>> response, Retrofit retrofit)
-//					{
-//						Log.d(TAG, response.code() + "");
-//
-//						((BankAdapter)mAdapter).loadBankData(response.body());
-//						mSwipeRefreshLayout.setRefreshing(false);
-//					}
-//
-//					@Override
-//					public void onFailure(Throwable t)
-//					{
-//						mSwipeRefreshLayout.setRefreshing(false);
-//
-//						Toast toast = Toast.makeText(getContext(), "Error while loading", Toast.LENGTH_SHORT);
-//						toast.show();
-//					}
-//				});
+
+				for(int x = 0; x < Math.ceil(ids.length/200.0); x++)
+				{
+					int[] temp = new int[200];
+					if((x + 1) * 200 <= ids.length)
+					{
+						System.arraycopy(ids, x * 200, temp, 0, 200);
+					}
+					else
+					{
+						System.arraycopy(ids, x * 200, temp, 0, ids.length - x*200);
+					}
+
+					Log.d(TAG, "Size of sent data: " + temp.length);
+					//get item data
+					Call<List<ItemDatum>> itemCall = sApi.getItems(temp);
+					itemCall.enqueue(new Callback<List<ItemDatum>>()
+					{
+						@Override
+						public void onResponse(Response<List<ItemDatum>> response, Retrofit retrofit)
+						{
+							Log.d(TAG, response.code() + "");
+
+							//((BankAdapter)mAdapter).loadBankData(response.body());
+							sItemTable.storeItems(response.body());
+							mAdapter.notifyDataSetChanged();
+							mSwipeRefreshLayout.setRefreshing(false);
+						}
+
+						@Override
+						public void onFailure(Throwable t)
+						{
+							mSwipeRefreshLayout.setRefreshing(false);
+
+							Toast toast = Toast.makeText(getContext(), "Error while loading", Toast.LENGTH_SHORT);
+							toast.show();
+						}
+					});
+				}
 			}
 
 			@Override

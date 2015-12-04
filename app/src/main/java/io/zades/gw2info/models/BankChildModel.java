@@ -1,6 +1,6 @@
 package io.zades.gw2info.models;
 
-import io.zades.gw2info.data.ItemDatum;
+import io.zades.gw2info.data.pojo.ItemDatum;
 
 /**
  * Created by zades on 12/4/2015.

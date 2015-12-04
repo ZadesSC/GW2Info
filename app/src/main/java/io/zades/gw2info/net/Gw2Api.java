@@ -1,10 +1,9 @@
 package io.zades.gw2info.net;
 
 import android.util.Log;
-import com.squareup.okhttp.OkHttpClient;
 import io.zades.gw2info.BuildConfig;
-import io.zades.gw2info.data.AccountBankDatum;
-import io.zades.gw2info.data.ItemDatum;
+import io.zades.gw2info.data.pojo.AccountBankDatum;
+import io.zades.gw2info.data.pojo.ItemDatum;
 import io.zades.gw2info.utils.Utils;
 import retrofit.Call;
 import retrofit.Retrofit;

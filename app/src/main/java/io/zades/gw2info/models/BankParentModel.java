@@ -11,7 +11,7 @@ public class BankParentModel
 
 	public BankParentModel(int parentPosition)
 	{
-		setBankTabString(BANK_TAB_STRING + parentPosition);
+		setBankTabString(BANK_TAB_STRING + (parentPosition + 1));
 	}
 
 	public String getBankTabString()
