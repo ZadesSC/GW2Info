@@ -12,15 +12,13 @@ import io.zades.gw2info.events.AdvancedRecyclerViewClickedEvent;
 public abstract class AbstractAdvancedViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 {
 	private EventBus mEventBus = EventBus.getDefault();
-	private int mParentPosition;
-	private int mChildPosition;
 
-	public AbstractAdvancedViewHolder(View itemView, int parentPosition, int childPosition)
+	public AbstractAdvancedViewHolder(View itemView)
 	{
 		super(itemView);
-		getEventBus().register(this);
-		this.mParentPosition = parentPosition;
-		this.mChildPosition = childPosition;
+
+		itemView.setClickable(true);
+		itemView.setOnClickListener(this);
 	}
 
 	@Override
@@ -30,7 +28,7 @@ public abstract class AbstractAdvancedViewHolder extends RecyclerView.ViewHolder
 		{
 			case AbstractAdvancedRecyclerViewAdapter.TYPE_PARENT:
 				//send event bus over
-				mEventBus.post(new AdvancedRecyclerViewClickedEvent(getParentPosition(), getChildPosition()));
+				mEventBus.post(new AdvancedRecyclerViewClickedEvent(getPosition()));
 				break;
 			default:
 				onClickPostAdvancedProcessing(v);
@@ -48,25 +46,5 @@ public abstract class AbstractAdvancedViewHolder extends RecyclerView.ViewHolder
 	protected void setEventBus(EventBus eventBus)
 	{
 		mEventBus = eventBus;
-	}
-
-	public int getParentPosition()
-	{
-		return mParentPosition;
-	}
-
-	public void setParentPosition(int mParentPosition)
-	{
-		this.mParentPosition = mParentPosition;
-	}
-
-	public int getChildPosition()
-	{
-		return mChildPosition;
-	}
-
-	public void setChildPosition(int mChildPosition)
-	{
-		this.mChildPosition = mChildPosition;
 	}
 }

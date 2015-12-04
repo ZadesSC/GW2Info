@@ -99,6 +99,7 @@ public class AdvancedRecyclerViewDataModel<ParentData, ChildData>
 		return count;
 	}
 
+
 	public int translatePosition(int parentPosition, int childPosition)
 	{
 		int listPosition = 0;
@@ -106,6 +107,12 @@ public class AdvancedRecyclerViewDataModel<ParentData, ChildData>
 		for(int x = 0; x < parentPosition; x++)
 		{
 			listPosition ++; //adds 1 for each parent
+
+			if(mParentList.get(x).isCollapsed())
+			{
+				continue;
+			}
+
 			listPosition += mParentList.get(x).getChildCount(); //adds the count for childs
 		}
 
@@ -115,6 +122,11 @@ public class AdvancedRecyclerViewDataModel<ParentData, ChildData>
 		return listPosition;
 	}
 
+	/**
+	 * Returns the VISIBLE translated position
+	 * @param position
+	 * @return
+	 */
 	public Pair<Integer, Integer> translatePosition(int position)
 	{
 		int positionCounter = position;
@@ -127,6 +139,11 @@ public class AdvancedRecyclerViewDataModel<ParentData, ChildData>
 			}
 
 			positionCounter--;
+
+			if(mParentList.get(x).isCollapsed())
+			{
+				continue;
+			}
 
 			AdvancedRecyclerViewParentDataModel parentData = mParentList.get(x);
 
@@ -141,6 +158,12 @@ public class AdvancedRecyclerViewDataModel<ParentData, ChildData>
 
 		return null; //something gone goofed
 	}
+
+	/**
+	 * Returns the type at a VISIBLE position
+	 * @param position
+	 * @return
+	 */
 	public int getType(int position)
 	{
 		Pair<Integer, Integer> pair = translatePosition(position);

@@ -45,6 +45,12 @@ public abstract class AbstractAdvancedRecyclerViewAdapter<ParentData, ChildData>
 //
 //	}
 
+
+	public void resetData()
+	{
+		mDataModel = new AdvancedRecyclerViewDataModel<>();
+	}
+
 	@Override
 	public int getItemCount()
 	{
@@ -54,55 +60,50 @@ public abstract class AbstractAdvancedRecyclerViewAdapter<ParentData, ChildData>
 	@Override
 	public int getItemViewType(int position)
 	{
-		Pair<Integer, Integer> location = mDataModel.translatePosition(position);
-
-		return mDataModel.getType(location.first, location.second);
+		return mDataModel.getType(position);
 	}
 
 	public void onEvent(AdvancedRecyclerViewClickedEvent event)
 	{
-		AdvancedRecyclerViewParentDataModel<ParentData, ChildData> parent = mDataModel.getParent(event.getParentPosition());
+		Pair<Integer, Integer> pair = mDataModel.translatePosition(event.getPosition());
+		AdvancedRecyclerViewParentDataModel<ParentData, ChildData> parent = mDataModel.getParent(pair.first);
 
 		if(!parent.isCollapsed())
 		{
-			collapseParent(event.getParentPosition());
+			collapseParent(event.getPosition(), parent);
 		}
 		else
 		{
-			expandParent(event.getParentPosition());
+			expandParent(event.getPosition(), parent);
 		}
 	}
 
-	private void expandParent(int parentPosition)
+	private void expandParent(int position, AdvancedRecyclerViewParentDataModel<ParentData,ChildData> parent)
 	{
-		AdvancedRecyclerViewParentDataModel<ParentData, ChildData> parent = mDataModel.getParent(parentPosition);
-
 		//TODO: maybe check to make sure its a parent
 
-		if(parent.isCollapsed())
+		if(!parent.isCollapsed())
 		{
 			Log.e(TAG, "Method expandParent evoked but parent already expanded");
 			return;
 		}
 
 		parent.setIsCollapsed(false);
-		notifyItemRangeInserted(parentPosition + 1, parent.getChildCount()); //TODO:convert numbers
+		notifyItemRangeInserted(position + 1, parent.getChildCount()); //TODO:convert numbers
 	}
 
-	private void collapseParent(int parentPosition)
+	private void collapseParent(int position, AdvancedRecyclerViewParentDataModel<ParentData,ChildData> parent)
 	{
-		AdvancedRecyclerViewParentDataModel<ParentData, ChildData> parent = mDataModel.getParent(parentPosition);
-
 		//TODO: maybe check to make sure its a parent
 
-		if(!parent.isCollapsed())
+		if(parent.isCollapsed())
 		{
 			Log.e(TAG, "Method collapseParent evoked but parent already collapsed");
 			return;
 		}
 
 		parent.setIsCollapsed(true);
-		notifyItemRangeRemoved(parentPosition + 1, parent.getChildCount());	//TODO:convert numbers
+		notifyItemRangeRemoved(position + 1, parent.getChildCount());	//TODO:convert numbers
 
 	}
 }

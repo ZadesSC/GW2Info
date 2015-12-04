@@ -5,22 +5,20 @@ package io.zades.gw2info.events;
  */
 public class AdvancedRecyclerViewClickedEvent
 {
-	private int mParentPosition;
-	private int mChildPosition;
+	private int mPosition;
 
-	public AdvancedRecyclerViewClickedEvent(int parentPosition, int childPosition)
+	public AdvancedRecyclerViewClickedEvent(int position)
 	{
-		this.mParentPosition = parentPosition;
-		this.mChildPosition = childPosition;
+		setPosition(position);
 	}
 
-	public int getParentPosition()
+	public int getPosition()
 	{
-		return mParentPosition;
+		return mPosition;
 	}
 
-	public int getChildPosition()
+	public void setPosition(int mPosition)
 	{
-		return mChildPosition;
+		this.mPosition = mPosition;
 	}
 }

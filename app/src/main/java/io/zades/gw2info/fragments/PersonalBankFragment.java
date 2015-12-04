@@ -96,6 +96,7 @@ public class PersonalBankFragment extends Fragment implements RecyclerViewExpand
 	@Override
 	public void onRefresh()
 	{
+		((BankAdapter)mAdapter).resetData();
 		mSwipeRefreshLayout.setRefreshing(true);
 		getBankData();
 	}

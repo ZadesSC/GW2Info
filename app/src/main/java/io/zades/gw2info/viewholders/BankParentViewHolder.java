@@ -10,7 +10,7 @@ import io.zades.gw2info.R;
 /**
  * Created by zades on 12/4/2015.
  */
-public class BankParentViewHolder extends RecyclerView.ViewHolder
+public class BankParentViewHolder extends AbstractAdvancedViewHolder
 {
 	public TextView textView;
 
@@ -22,5 +22,11 @@ public class BankParentViewHolder extends RecyclerView.ViewHolder
 		mContext = context;
 
 		textView = (TextView) itemView.findViewById(R.id.text_bank_parent_row);
+	}
+
+	@Override
+	public void onClickPostAdvancedProcessing(View v)
+	{
+
 	}
 }
