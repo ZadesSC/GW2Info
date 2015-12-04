@@ -4,6 +4,8 @@ package io.zades.gw2info.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,8 +17,6 @@ import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.RefactoredDefaultItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 import io.zades.gw2info.R;
-import io.zades.gw2info.adapters.NavigationDrawerAdapter;
-import io.zades.gw2info.adapters.PersonalBankAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,7 +27,7 @@ public class PersonalBankFragment extends Fragment implements RecyclerViewExpand
 	private RecyclerView mRecyclerView;
 	private RecyclerView.Adapter mAdapter;
 	private RecyclerView.LayoutManager mLayoutManager;
-	private RecyclerViewExpandableItemManager mRecycleViewExpandableItemManager;
+	private ActionBarDrawerToggle mDrawerToggle;
 
 	public PersonalBankFragment()
 	{
@@ -44,7 +44,7 @@ public class PersonalBankFragment extends Fragment implements RecyclerViewExpand
 	}
 
 	@Override
-	public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+	public void onViewCreated(View view, Bundle savedInstanceState)
 	{
 		super.onViewCreated(view, savedInstanceState);
 
@@ -52,20 +52,11 @@ public class PersonalBankFragment extends Fragment implements RecyclerViewExpand
 		mRecyclerView = (RecyclerView) getView().findViewById(R.id.recycle_view_navigation_drawer);
 		mLayoutManager = new LinearLayoutManager(getContext());
 
-		final PersonalBankAdapter adapter = new PersonalBankAdapter(getContext());
-		mAdapter = mRecycleViewExpandableItemManager.createWrappedAdapter(adapter); //please work
-
-		//TODO: load data
-		mRecycleViewExpandableItemManager = new RecyclerViewExpandableItemManager(null); //figure out what this parameter is
-		mRecycleViewExpandableItemManager.setOnGroupExpandListener(this);
-		mRecycleViewExpandableItemManager.setOnGroupCollapseListener(this);
-
-		final GeneralItemAnimator animator = new RefactoredDefaultItemAnimator();
-		animator.setSupportsChangeAnimations(false);
+		//init mAdapter
 
 		mRecyclerView.setHasFixedSize(false);
 		mRecyclerView.setAdapter(mAdapter);
-		mRecyclerView.setItemAnimator(animator);
+		//mRecyclerView.setItemAnimator(animator);
 		mRecyclerView.setLayoutManager(mLayoutManager);
 
 

@@ -18,6 +18,7 @@ public class Gw2Api
 	public static final String AUTH_HEADER = "Authorization";
 	public static final String AUTH_BEARER = "Bearer ";
 
+	private static Gw2Api sInstance = null;
 	private static final String ENDPOINT = "https://api.guildwars2.com/v2/";
 	private static final String API_KEY = "";
 
@@ -33,6 +34,16 @@ public class Gw2Api
 				.build();
 
 		service = retrofit.create(Gw2ApiService.class);
+	}
+
+	public static Gw2Api getInstance()
+	{
+		if(sInstance == null)
+		{
+			sInstance = new Gw2Api();
+		}
+
+		return sInstance;
 	}
 
 	public Call<List<AccountBankDatum>> getAccountBank()

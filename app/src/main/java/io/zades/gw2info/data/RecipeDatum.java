@@ -200,13 +200,13 @@ public class RecipeDatum
 	}
 
 	public class Ingredient {
-
-		@SerializedName("item_id")
+ 		@SerializedName("item_id")
 		@Expose
 		private Long itemId;
 		@SerializedName("count")
 		@Expose
 		private Long count;
+
 
 		/**
 		 *
