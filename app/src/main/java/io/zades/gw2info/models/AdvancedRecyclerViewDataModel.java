@@ -26,6 +26,17 @@ public class AdvancedRecyclerViewDataModel<ParentData, ChildData>
 		mParentList.add(newParentItem);
 	}
 
+	public void addChild(ChildData data, int viewType)
+	{
+		if(mParentList.size() == 0)
+		{
+			return; //TODO: add error
+		}
+
+		AdvancedRecyclerViewChildDataModel<ChildData> newChildItem = new AdvancedRecyclerViewChildDataModel<>(data, viewType);
+		mParentList.get(mParentList.size()-1).add(newChildItem);
+	}
+
 	public void addChild(ChildData data, int viewType, int parentPosition)
 	{
 		//TODO: maybe check if the parent exits first
@@ -129,6 +140,12 @@ public class AdvancedRecyclerViewDataModel<ParentData, ChildData>
 		}
 
 		return null; //something gone goofed
+	}
+	public int getType(int position)
+	{
+		Pair<Integer, Integer> pair = translatePosition(position);
+
+		return getType(pair.first, pair.second);
 	}
 
 	public int getType(int parentPosition, int childPosition)

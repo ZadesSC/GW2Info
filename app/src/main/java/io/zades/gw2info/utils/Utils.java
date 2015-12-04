@@ -1,5 +1,7 @@
 package io.zades.gw2info.utils;
 
+import android.util.Log;
+
 /**
  * Created by zades on 11/19/2015.
  */
@@ -22,6 +24,7 @@ public class Utils
 			}
 		}
 
+		Log.d("CONVERT", str);
 		return str;
 	}
 }

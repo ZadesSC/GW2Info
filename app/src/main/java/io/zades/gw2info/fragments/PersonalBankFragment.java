@@ -1,33 +1,51 @@
 package io.zades.gw2info.fragments;
 
 
+import android.content.ClipData;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Toast;
 import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.RefactoredDefaultItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 import io.zades.gw2info.R;
+import io.zades.gw2info.adapters.BankAdapter;
+import io.zades.gw2info.data.AccountBankDatum;
+import io.zades.gw2info.data.ItemDatum;
+import io.zades.gw2info.net.Gw2Api;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PersonalBankFragment extends Fragment implements RecyclerViewExpandableItemManager.OnGroupCollapseListener, RecyclerViewExpandableItemManager.OnGroupExpandListener
+public class PersonalBankFragment extends Fragment implements RecyclerViewExpandableItemManager.OnGroupCollapseListener, RecyclerViewExpandableItemManager.OnGroupExpandListener, SwipeRefreshLayout.OnRefreshListener
 {
+	private final static String TAG = "PersonalBankFragment";
+	private final Gw2Api sApi = Gw2Api.getInstance();
+
 	private Toolbar mToolbar;
 	private RecyclerView mRecyclerView;
 	private RecyclerView.Adapter mAdapter;
 	private RecyclerView.LayoutManager mLayoutManager;
 	private ActionBarDrawerToggle mDrawerToggle;
+	private SwipeRefreshLayout mSwipeRefreshLayout;
 
 	public PersonalBankFragment()
 	{
@@ -49,17 +67,18 @@ public class PersonalBankFragment extends Fragment implements RecyclerViewExpand
 		super.onViewCreated(view, savedInstanceState);
 
 		mToolbar = (Toolbar) getActivity().findViewById(R.id.app_bar);
-		mRecyclerView = (RecyclerView) getView().findViewById(R.id.recycle_view_navigation_drawer);
+		mRecyclerView = (RecyclerView) getView().findViewById(R.id.recycle_view_personal_bank);
+		mSwipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.refresh_personal_bank);
 		mLayoutManager = new LinearLayoutManager(getContext());
 
-		//init mAdapter
+		mAdapter = new BankAdapter(getContext());
 
-		mRecyclerView.setHasFixedSize(false);
 		mRecyclerView.setAdapter(mAdapter);
 		//mRecyclerView.setItemAnimator(animator);
 		mRecyclerView.setLayoutManager(mLayoutManager);
+		mSwipeRefreshLayout.setOnRefreshListener(this);
 
-
+		onRefresh(); //load data lazy way
 	}
 
 	@Override
@@ -72,5 +91,76 @@ public class PersonalBankFragment extends Fragment implements RecyclerViewExpand
 	public void onGroupExpand(int i, boolean b)
 	{
 
+	}
+
+	@Override
+	public void onRefresh()
+	{
+		mSwipeRefreshLayout.setRefreshing(true);
+		getBankData();
+	}
+
+	public void getBankData()
+	{
+		Call<List<AccountBankDatum>> call = sApi.getAccountBank();
+		call.enqueue(new Callback<List<AccountBankDatum>>()
+		{
+			@Override
+			public void onResponse(Response<List<AccountBankDatum>> response, Retrofit retrofit)
+			{
+				//send to adapter
+				Log.d(TAG, response.code() + "");
+
+				((BankAdapter)mAdapter).loadItemNumbers(response.body());
+				mSwipeRefreshLayout.setRefreshing(false);
+
+				//grab le ids
+				int[] ids = new int[response.body().size()];
+				for(int x = 0; x< response.body().size(); x++)
+				{
+					if(response.body().get(x) == null)
+					{
+						//Log.d(TAG, "null");
+						ids[x] = -1;
+					}
+					else
+					{
+						//Log.d(TAG, response.body().get(x).getId() + "");
+						ids[x] = response.body().get(x).getId();
+					}
+				}
+				//get item data
+//				Call<List<ItemDatum>> itemCall = sApi.getItems(ids);
+//				itemCall.enqueue(new Callback<List<ItemDatum>>()
+//				{
+//					@Override
+//					public void onResponse(Response<List<ItemDatum>> response, Retrofit retrofit)
+//					{
+//						Log.d(TAG, response.code() + "");
+//
+//						((BankAdapter)mAdapter).loadBankData(response.body());
+//						mSwipeRefreshLayout.setRefreshing(false);
+//					}
+//
+//					@Override
+//					public void onFailure(Throwable t)
+//					{
+//						mSwipeRefreshLayout.setRefreshing(false);
+//
+//						Toast toast = Toast.makeText(getContext(), "Error while loading", Toast.LENGTH_SHORT);
+//						toast.show();
+//					}
+//				});
+			}
+
+			@Override
+			public void onFailure(Throwable t)
+			{
+				mSwipeRefreshLayout.setRefreshing(false);
+
+				Toast toast = Toast.makeText(getContext(), "Error while loading", Toast.LENGTH_SHORT);
+				toast.show();
+			}
+		});
 	}
 }

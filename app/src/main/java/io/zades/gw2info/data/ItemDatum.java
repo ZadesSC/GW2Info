@@ -50,6 +50,11 @@ public class ItemDatum {
 	@Expose
 	private Details details;
 
+	public ItemDatum()
+	{
+
+	}
+
 	/**
 	 *
 	 * @return

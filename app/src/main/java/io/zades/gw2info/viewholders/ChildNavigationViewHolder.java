@@ -5,7 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import de.greenrobot.event.EventBus;
 import io.zades.gw2info.R;
+import io.zades.gw2info.events.NavigationItemClickedEvent;
 
 /**
  * Created by zades on 11/15/2015.
@@ -32,6 +34,6 @@ public class ChildNavigationViewHolder extends RecyclerView.ViewHolder implement
 	@Override
 	public void onClick(View v)
 	{
-
+		EventBus.getDefault().post(new NavigationItemClickedEvent(getPosition(), textView.getText().toString()));
 	}
 }

@@ -1,5 +1,7 @@
 package io.zades.gw2info.adapters;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
@@ -12,7 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import de.greenrobot.event.EventBus;
 import io.zades.gw2info.R;
+import io.zades.gw2info.events.NavigationItemClickedEvent;
 import io.zades.gw2info.events.NavigationParentClickedEvent;
+import io.zades.gw2info.fragments.PersonalBankFragment;
 import io.zades.gw2info.models.BasicNavigationModel;
 import io.zades.gw2info.models.ChildNavigationModel;
 import io.zades.gw2info.models.ParentNavigationModel;

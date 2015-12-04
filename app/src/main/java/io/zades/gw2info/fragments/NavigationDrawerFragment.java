@@ -3,23 +3,30 @@ package io.zades.gw2info.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import de.greenrobot.event.EventBus;
 import io.zades.gw2info.R;
 import io.zades.gw2info.adapters.NavigationDrawerAdapter;
+import io.zades.gw2info.events.NavigationItemClickedEvent;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class NavigationDrawerFragment extends Fragment
 {
+	private static final String TAG = "NavigationFragment";
+
+	private EventBus mEventBus = EventBus.getDefault();
 	private Toolbar mToolbar;
 	private RecyclerView mRecyclerView;
 	private RecyclerView.Adapter mAdapter;
@@ -47,6 +54,8 @@ public class NavigationDrawerFragment extends Fragment
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
+
+		mEventBus.register(this);
 
 		mToolbar = (Toolbar) getActivity().findViewById(R.id.app_bar);
 		mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
@@ -80,6 +89,39 @@ public class NavigationDrawerFragment extends Fragment
 		}; // Drawer Toggle Object Made
 		mDrawerLayout.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
 		mDrawerToggle.syncState();
+	}
+
+	public void onEvent(NavigationItemClickedEvent event)
+	{
+		Fragment fragment = null;
+		Class fragmentClass = null;
+
+		switch (event.getChildTitle())
+		{
+			case "Bank":
+				fragmentClass = PersonalBankFragment.class;
+				break;
+			default:
+				fragmentClass = PersonalBankFragment.class;
+				break;
+		}
+
+		try
+		{
+			fragment = (Fragment) fragmentClass.newInstance();
+		} catch (java.lang.InstantiationException e)
+		{
+			e.printStackTrace();
+		} catch (IllegalAccessException e)
+		{
+			e.printStackTrace();
+		}
+
+		FragmentManager fragmentManager = getFragmentManager();
+		fragmentManager.beginTransaction().replace(R.id.frame_layout_content, fragment).commit();
+
+		Log.d(TAG, "Reached onEvent reached for NavigationItemClickedEvent");
+
 	}
 
 

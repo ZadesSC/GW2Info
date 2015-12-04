@@ -16,42 +16,42 @@ public interface Gw2ApiService
 {
 	@GET("account")
 	Call<AccountData> getAccount(
-		@Header(Gw2Api.AUTH_BEARER) String auth
+		@Header(Gw2Api.AUTH_HEADER) String auth
 	);
 
 	@GET("account/achievements")
 	Call<List<AccountAchievementsDatum>> getAccountAchievements(
-			@Header(Gw2Api.AUTH_BEARER) String auth
+			@Header(Gw2Api.AUTH_HEADER) String auth
 	);
 
 	@GET("account/bank")
 	Call<List<AccountBankDatum>> getAccountBank(
-			@Header(Gw2Api.AUTH_BEARER) String auth
+			@Header(Gw2Api.AUTH_HEADER) String auth
 	);
 
 	@GET("account/dyes")
 	Call<List<Integer>> getAccountDyes(
-			@Header(Gw2Api.AUTH_BEARER) String auth
+			@Header(Gw2Api.AUTH_HEADER) String auth
 	);
 
 	@GET("account/materials")
 	Call<List<AccountMaterialDatum>> getAccountMaterials(
-			@Header(Gw2Api.AUTH_BEARER) String auth
+			@Header(Gw2Api.AUTH_HEADER) String auth
 	);
 
 	@GET("account/minis")
 	Call<List<Integer>> getAccountMinis(
-			@Header(Gw2Api.AUTH_BEARER) String auth
+			@Header(Gw2Api.AUTH_HEADER) String auth
 	);
 
 	@GET("account/skins")
 	Call<List<Integer>> getAccountSkins(
-			@Header(Gw2Api.AUTH_BEARER) String auth
+			@Header(Gw2Api.AUTH_HEADER) String auth
 	);
 
 	@GET("account/wallet")
 	Call<List<AccountWalletDatum>> getAccountWallet(
-			@Header(Gw2Api.AUTH_BEARER) String auth
+			@Header(Gw2Api.AUTH_HEADER) String auth
 	);
 
 	@GET("achievements")
@@ -67,13 +67,13 @@ public interface Gw2ApiService
 
 	@GET("characters")	//get list of characters
 	Call<List<String>> getCharacters(
-			@Header(Gw2Api.AUTH_BEARER) String auth,
+			@Header(Gw2Api.AUTH_HEADER) String auth,
 			@Query("page") int page
 	);
 
 	@GET("characters")	//get inforation of a character
 	Call<List<CharacterDatum>> getCharacters(
-			@Header(Gw2Api.AUTH_BEARER) String auth,
+			@Header(Gw2Api.AUTH_HEADER) String auth,
 			@Query("ids") String ids
 	);
 
@@ -107,7 +107,7 @@ public interface Gw2ApiService
 
 	@GET("commerce/transactions{currentOrHistory}/{buyOrSell}")
 	Call<List<CommerceTransactionDatum>> getCommerceTransactions(
-			@Header(Gw2Api.AUTH_BEARER) String auth,
+			@Header(Gw2Api.AUTH_HEADER) String auth,
 			@Path("currentOrHistory") String currentOrHistory,
 			@Path("buyOrSell") String buyOrSell
 	);
@@ -154,12 +154,12 @@ public interface Gw2ApiService
 
 	@GET("pvp/games")
 	Call<List<PvpGameDatum>> getPvpGames(
-			@Header(Gw2Api.AUTH_BEARER) String auth
+			@Header(Gw2Api.AUTH_HEADER) String auth
 	);
 
 	@GET("pvp/stats")
 	Call<PvpStatData> getPvpStats(
-			@Header(Gw2Api.AUTH_BEARER) String auth
+			@Header(Gw2Api.AUTH_HEADER) String auth
 	);
 
 	@GET("recipes")

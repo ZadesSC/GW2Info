@@ -1,6 +1,8 @@
 package io.zades.gw2info.net;
 
+import android.util.Log;
 import com.squareup.okhttp.OkHttpClient;
+import io.zades.gw2info.BuildConfig;
 import io.zades.gw2info.data.AccountBankDatum;
 import io.zades.gw2info.data.ItemDatum;
 import io.zades.gw2info.utils.Utils;
@@ -20,7 +22,7 @@ public class Gw2Api
 
 	private static Gw2Api sInstance = null;
 	private static final String ENDPOINT = "https://api.guildwars2.com/v2/";
-	private static final String API_KEY = "";
+	private static final String API_KEY = BuildConfig.API_KEY;
 
 	private final Retrofit retrofit;
 	private final Gw2ApiService service;
@@ -48,6 +50,7 @@ public class Gw2Api
 
 	public Call<List<AccountBankDatum>> getAccountBank()
 	{
+		Log.d("GW2API", "api key: " + API_KEY);
 		return service.getAccountBank(AUTH_BEARER + API_KEY);
 	}
 
