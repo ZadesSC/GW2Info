@@ -1,6 +1,5 @@
 package io.zades.gw2info.adapters;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -8,10 +7,12 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.squareup.picasso.Picasso;
 import io.zades.gw2info.R;
 import io.zades.gw2info.data.ItemTable;
 import io.zades.gw2info.data.pojo.AccountBankDatum;
 import io.zades.gw2info.data.pojo.ItemDatum;
+import io.zades.gw2info.graphics.IconBorderTransformation;
 import io.zades.gw2info.models.AdvancedRecyclerViewChildDataModel;
 import io.zades.gw2info.models.AdvancedRecyclerViewParentDataModel;
 import io.zades.gw2info.models.BankChildModel;
@@ -25,9 +26,9 @@ import java.util.List;
 /**
  * Created by zades on 12/4/2015.
  */
-public class BankAdapter extends AbstractAdvancedRecyclerViewAdapter<BankParentModel, BankChildModel>
+public class PersonalBankAdapter extends AbstractAdvancedRecyclerViewAdapter<BankParentModel, BankChildModel>
 {
-	private static final String TAG = "BankAdapter";
+	private static final String TAG = "PersonalBankAdapter";
 
 	public static final int TYPE_CHILD = 1;
 
@@ -39,7 +40,7 @@ public class BankAdapter extends AbstractAdvancedRecyclerViewAdapter<BankParentM
 
 	private int dataPtr = 0;
 
-	public BankAdapter(Context context)
+	public PersonalBankAdapter(Context context)
 	{
 		super();
 		mContext = context;
@@ -78,23 +79,34 @@ public class BankAdapter extends AbstractAdvancedRecyclerViewAdapter<BankParentM
 				break;
 			case TYPE_CHILD:
 				BankChildViewHolder castedChild = (BankChildViewHolder) holder;
-				if(mDataModel.getChildData(pair.first, pair.second).getItemData() != null)
-				{
-					Long id = mDataModel.getChildData(pair.first, pair.second).getItemData().getId();
-					if(sItemTable.getItemData(id) == null)
-					{
-						castedChild.textView.setText("Item ID: " + id);
-					}
-					else
-					{
-						castedChild.textView.setText(sItemTable.getItemData(id).getName());
-					}
-				}
-				else
-				{
-					castedChild.textView.setText("null");
-				}
+				bindChild(castedChild, pair);
 				break;
+		}
+	}
+
+	public void bindChild(BankChildViewHolder holder, Pair<Integer, Integer> position)
+	{
+		if(mDataModel.getChildData(position.first, position.second).getItemData() != null)
+		{
+			Long id = mDataModel.getChildData(position.first, position.second).getItemData().getId();
+			ItemDatum itemData = sItemTable.getItemData(id);
+			int itemAmount = mDataModel.getChildData(position.first, position.second).getAmount();
+
+			if(itemData == null)
+			{
+				holder.textView.setText("Item ID: " + id);
+				Picasso.with(mContext).load(R.drawable.icon_placeholder).into(holder.imageView);
+			}
+			else
+			{
+				holder.textView.setText(itemAmount + " " + itemData.getName());
+				Picasso.with(mContext).load(itemData.getIcon()).placeholder(R.drawable.icon_placeholder).transform(new IconBorderTransformation(itemData.getRarity(), itemAmount, mContext)).into(holder.imageView);
+			}
+		}
+		else
+		{
+			//holder.textView.setText("null");
+			Picasso.with(mContext).load(R.drawable.icon_placeholder).into(holder.imageView);
 		}
 	}
 
@@ -155,6 +167,7 @@ public class BankAdapter extends AbstractAdvancedRecyclerViewAdapter<BankParentM
 			{
 				model.setItemData(new ItemDatum());
 				model.getItemData().setId(data.get(x).getId().longValue());
+				model.setAmount(data.get(x).getCount());
 
 			}
 			mDataModel.addChild(model, TYPE_CHILD);

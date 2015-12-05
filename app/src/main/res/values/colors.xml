@@ -4,4 +4,12 @@
 	<color name="primaryColorDark">#D32F2F</color>
 	<color name="accentColor">#4CAF50</color>
 	<color name="white">#FFFFFF</color>
+	<color name="legendaryColor">#9614A0</color>
+	<color name="ascendedColor">#FA3C8C</color>
+	<color name="exoticColor">#FFA505</color>
+	<color name="rareColor">#FAD20A</color>
+	<color name="masterworkColor">#199105</color>
+	<color name="fineColor">#91A5DC</color>
+	<color name="basicColor">#000000</color>
+	<color name="junkColor">#BEAAAA</color>
 </resources>

@@ -14,9 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.Toast;
-import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 import io.zades.gw2info.R;
-import io.zades.gw2info.adapters.BankAdapter;
+import io.zades.gw2info.adapters.PersonalBankAdapter;
 import io.zades.gw2info.data.ItemTable;
 import io.zades.gw2info.data.pojo.AccountBankDatum;
 import io.zades.gw2info.data.pojo.ItemDatum;
@@ -31,7 +30,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PersonalBankFragment extends Fragment implements RecyclerViewExpandableItemManager.OnGroupCollapseListener, RecyclerViewExpandableItemManager.OnGroupExpandListener, SwipeRefreshLayout.OnRefreshListener
+public class PersonalBankFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
 {
 	private final static String TAG = "PersonalBankFragment";
 	private final Gw2Api sApi = Gw2Api.getInstance();
@@ -68,7 +67,7 @@ public class PersonalBankFragment extends Fragment implements RecyclerViewExpand
 		mSwipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.refresh_personal_bank);
 		mLayoutManager = new LinearLayoutManager(getContext());
 
-		mAdapter = new BankAdapter(getContext());
+		mAdapter = new PersonalBankAdapter(getContext());
 
 		mRecyclerView.setAdapter(mAdapter);
 		//mRecyclerView.setItemAnimator(animator);
@@ -79,21 +78,9 @@ public class PersonalBankFragment extends Fragment implements RecyclerViewExpand
 	}
 
 	@Override
-	public void onGroupCollapse(int i, boolean b)
-	{
-
-	}
-
-	@Override
-	public void onGroupExpand(int i, boolean b)
-	{
-
-	}
-
-	@Override
 	public void onRefresh()
 	{
-		((BankAdapter)mAdapter).resetData();
+		((PersonalBankAdapter)mAdapter).resetData();
 		mSwipeRefreshLayout.setRefreshing(true);
 		getBankData();
 	}
@@ -109,7 +96,7 @@ public class PersonalBankFragment extends Fragment implements RecyclerViewExpand
 				//send to adapter
 				Log.d(TAG, response.code() + "");
 
-				((BankAdapter)mAdapter).loadItemNumbers(response.body());
+				((PersonalBankAdapter)mAdapter).loadItemNumbers(response.body());
 				mSwipeRefreshLayout.setRefreshing(false);
 
 				//grab le ids
@@ -150,7 +137,7 @@ public class PersonalBankFragment extends Fragment implements RecyclerViewExpand
 						{
 							Log.d(TAG, response.code() + "");
 
-							//((BankAdapter)mAdapter).loadBankData(response.body());
+							//((PersonalBankAdapter)mAdapter).loadBankData(response.body());
 							sItemTable.storeItems(response.body());
 							mAdapter.notifyDataSetChanged();
 							mSwipeRefreshLayout.setRefreshing(false);

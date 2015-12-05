@@ -44,7 +44,4 @@ dependencies {
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
-    compile ('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.8.4@aar'){
-        transitive=true
-    }
 }
