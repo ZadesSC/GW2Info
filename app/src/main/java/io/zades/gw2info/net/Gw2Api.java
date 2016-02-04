@@ -3,7 +3,9 @@ package io.zades.gw2info.net;
 import android.util.Log;
 import io.zades.gw2info.BuildConfig;
 import io.zades.gw2info.data.pojo.AccountBankDatum;
+import io.zades.gw2info.data.pojo.AccountMaterialDatum;
 import io.zades.gw2info.data.pojo.ItemDatum;
+import io.zades.gw2info.data.pojo.MaterialDatum;
 import io.zades.gw2info.utils.Utils;
 import retrofit.Call;
 import retrofit.Retrofit;
@@ -51,6 +53,20 @@ public class Gw2Api
 	{
 		Log.d("GW2API", "api key: " + API_KEY);
 		return service.getAccountBank(AUTH_BEARER + API_KEY);
+	}
+	public Call<List<AccountMaterialDatum>> getAccountMaterial()
+	{
+		return service.getAccountMaterials(AUTH_BEARER + API_KEY);
+	}
+
+	public Call<List<Integer>> getMaterial()
+	{
+		return service.getMaterials();
+	}
+
+	public Call<List<MaterialDatum>> getMaterial(int[] ids)
+	{
+		return service.getMaterials(Utils.convertIntArrayToString(ids));
 	}
 
 	public Call<List<ItemDatum>> getItems(int[] ids)

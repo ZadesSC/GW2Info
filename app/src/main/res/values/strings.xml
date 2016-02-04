@@ -13,11 +13,8 @@
 	<string name="action_settings">Settings</string>
 
 	<!-- Nav Drawer Menu Names-->
-	<string-array name="nav_drawer_items">
-		<item>Overview</item>
-		<item>Personal</item>
-		<item>World Bosses</item>
-		<item>Personal Timers</item>
+	<string-array name="nav_drawer_top_items">
+		<item>News</item>
 	</string-array>
 
 	<string-array name="nav_drawer_personal_items">
@@ -26,11 +23,19 @@
 		<item>Characters</item>
 	</string-array>
 
+	<string-array name="nav_drawer_timer_items">
+		<item>Boss Timers</item>'
+		<item>Meta Timers</item>
+		<!--<item>Personal Timers</item>-->
+	</string-array>
+
+	<string name="nav_drawer_info">About</string>
+
 	<string name="drawer_open">Open</string>
 	<string name="drawer_close">Close</string>
 
 
-	<string name="title_activity_main">MainActivity</string>
+	<string name="title_activity_main">GW2 Info</string>
 
 	<string name="hello_world">Hello world!</string>
 

@@ -8,12 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.squareup.picasso.Picasso;
-import de.greenrobot.event.EventBus;
 import io.zades.gw2info.R;
 import io.zades.gw2info.data.ItemTable;
 import io.zades.gw2info.data.pojo.AccountBankDatum;
 import io.zades.gw2info.data.pojo.ItemDatum;
-import io.zades.gw2info.events.PersonalBankItemClickedEvent;
+import io.zades.gw2info.data.pojo.MaterialDatum;
 import io.zades.gw2info.graphics.IconBorderTransformation;
 import io.zades.gw2info.models.AdvancedRecyclerViewChildDataModel;
 import io.zades.gw2info.models.AdvancedRecyclerViewParentDataModel;
@@ -28,7 +27,7 @@ import java.util.List;
 /**
  * Created by zades on 12/4/2015.
  */
-public class PersonalBankAdapter extends AbstractAdvancedRecyclerViewAdapter<BankParentModel, BankChildModel>
+public class PersonalMaterialAdapter extends AbstractAdvancedRecyclerViewAdapter<BankParentModel, BankChildModel>
 {
 	private static final String TAG = "PersonalBankAdapter";
 
@@ -42,7 +41,7 @@ public class PersonalBankAdapter extends AbstractAdvancedRecyclerViewAdapter<Ban
 
 	private int dataPtr = 0;
 
-	public PersonalBankAdapter(Context context)
+	public PersonalMaterialAdapter(Context context)
 	{
 		super();
 		mContext = context;
@@ -144,6 +143,11 @@ public class PersonalBankAdapter extends AbstractAdvancedRecyclerViewAdapter<Ban
 				}
 			}
 		}
+
+	}
+
+	public synchronized void loadMaterialTabs(List<MaterialDatum> data)
+	{
 
 	}
 

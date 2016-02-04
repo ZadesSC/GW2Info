@@ -58,6 +58,7 @@ public class NavigationDrawerFragment extends Fragment
 		mEventBus.register(this);
 
 		mToolbar = (Toolbar) getActivity().findViewById(R.id.app_bar);
+
 		mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
 
 		mRecyclerView.setHasFixedSize(false);                            // Letting the system know that the list objects are of fixed size
@@ -86,7 +87,25 @@ public class NavigationDrawerFragment extends Fragment
 			}
 
 
-		}; // Drawer Toggle Object Made
+		};
+
+		//setup news fragment as default fragment
+		Class fragmentClass = NewsFragment.class;
+		Fragment fragment = null;
+		try
+		{
+			fragment = (Fragment) fragmentClass.newInstance();
+		} catch (java.lang.InstantiationException e)
+		{
+			e.printStackTrace();
+		} catch (IllegalAccessException e)
+		{
+			e.printStackTrace();
+		}
+		FragmentManager fragmentManager = getFragmentManager();
+		fragmentManager.beginTransaction().replace(R.id.frame_layout_content, fragment ).commit();
+
+		// Drawer Toggle Object Made
 		mDrawerLayout.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
 		mDrawerToggle.syncState();
 	}
@@ -100,6 +119,18 @@ public class NavigationDrawerFragment extends Fragment
 		{
 			case "Bank":
 				fragmentClass = PersonalBankFragment.class;
+				break;
+			case "Meta Timers":
+				fragmentClass = MetaTimerFragment.class;
+				break;
+			case "News":
+				fragmentClass = NewsFragment.class;
+				break;
+			case "Boss Timers":
+				fragmentClass = BossTimeFragment.class;
+				break;
+			case "About":
+				fragmentClass = InfoFragment.class;
 				break;
 			default:
 				fragmentClass = PersonalBankFragment.class;
@@ -119,6 +150,8 @@ public class NavigationDrawerFragment extends Fragment
 
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction().replace(R.id.frame_layout_content, fragment).commit();
+
+		mDrawerLayout.closeDrawers();
 
 		Log.d(TAG, "Reached onEvent reached for NavigationItemClickedEvent");
 

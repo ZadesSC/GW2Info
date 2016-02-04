@@ -12,14 +12,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.Toast;
 import de.greenrobot.event.EventBus;
 import io.zades.gw2info.R;
 import io.zades.gw2info.adapters.PersonalBankAdapter;
+import io.zades.gw2info.adapters.PersonalMaterialAdapter;
 import io.zades.gw2info.data.ItemTable;
 import io.zades.gw2info.data.pojo.AccountBankDatum;
+import io.zades.gw2info.data.pojo.AccountMaterialDatum;
 import io.zades.gw2info.data.pojo.ItemDatum;
+import io.zades.gw2info.data.pojo.MaterialDatum;
 import io.zades.gw2info.events.PersonalBankItemClickedEvent;
 import io.zades.gw2info.net.Gw2Api;
 import retrofit.Call;
@@ -30,11 +32,12 @@ import retrofit.Retrofit;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PersonalBankFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
+public class PersonalMaterialFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
 {
 	private final static String TAG = "PersonalBankFragment";
 	private final Gw2Api sApi = Gw2Api.getInstance();
@@ -48,7 +51,9 @@ public class PersonalBankFragment extends Fragment implements SwipeRefreshLayout
 	private ActionBarDrawerToggle mDrawerToggle;
 	private SwipeRefreshLayout mSwipeRefreshLayout;
 
-	public PersonalBankFragment()
+	private ConcurrentHashMap<Long, Long> mMatCountTable = new ConcurrentHashMap<>();
+
+	public PersonalMaterialFragment()
 	{
 		super();
 	}
@@ -58,7 +63,7 @@ public class PersonalBankFragment extends Fragment implements SwipeRefreshLayout
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.fragment_personal_bank, container, false);
+		View view = inflater.inflate(R.layout.fragment_personal_material, container, false);
 		return view;
 	}
 
@@ -68,11 +73,11 @@ public class PersonalBankFragment extends Fragment implements SwipeRefreshLayout
 		super.onViewCreated(view, savedInstanceState);
 
 		mToolbar = (Toolbar) getActivity().findViewById(R.id.app_bar);
-		mRecyclerView = (RecyclerView) getView().findViewById(R.id.recycle_view_personal_bank);
-		mSwipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.refresh_personal_bank);
+		mRecyclerView = (RecyclerView) getView().findViewById(R.id.recycle_view_personal_material);
+		mSwipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.refresh_personal_material);
 		mLayoutManager = new LinearLayoutManager(getContext());
 
-		mAdapter = new PersonalBankAdapter(getContext());
+		mAdapter = new PersonalMaterialAdapter(getContext());
 
 		mRecyclerView.setAdapter(mAdapter);
 		//mRecyclerView.setItemAnimator(animator);
@@ -102,7 +107,101 @@ public class PersonalBankFragment extends Fragment implements SwipeRefreshLayout
 	{
 		((PersonalBankAdapter)mAdapter).resetData();
 		mSwipeRefreshLayout.setRefreshing(true);
-		getBankData();
+		//getBankData();
+		getMaterialData();
+	}
+
+	public void getMaterialData()
+	{
+		//first populate material tabs, then pull account data
+		//using hardcode for speed
+		//might need to change later
+		//TODO: maybe change this, would involve another API call tho
+		int[] matIds = {5,6,39,30,37,38,46};
+		Call<List<MaterialDatum>> call = sApi.getMaterial(matIds);
+		call.enqueue(new Callback<List<MaterialDatum>>()
+		{
+			@Override
+			public void onResponse(Response<List<MaterialDatum>> response, Retrofit retrofit)
+			{
+				//create structural model then populate
+				((PersonalMaterialAdapter) mAdapter).loadMaterialTabs(response.body());
+				mSwipeRefreshLayout.setRefreshing(false);
+
+				//pull item data
+				int numIds = 0;
+				for (MaterialDatum datum : response.body())
+				{
+					numIds += datum.getItems().size();
+				}
+
+				//TODO: change ids to long across whole program
+				int[] ids = new int[numIds];
+				int counter = 0;
+				for (MaterialDatum datumL : response.body())
+				{
+					for (Long id : datumL.getItems())
+					{
+						ids[counter] = id.intValue();
+						counter++;
+					}
+				}
+
+				//item call after breaking amount into 200s
+				for (int x = 0; x < Math.ceil(ids.length / 200.0); x++)
+				{
+					int[] temp = new int[200];
+					if ((x + 1) * 200 <= ids.length)
+					{
+						System.arraycopy(ids, x * 200, temp, 0, 200);
+					}
+					else
+					{
+						System.arraycopy(ids, x * 200, temp, 0, ids.length - x * 200);
+					}
+
+					Log.d(TAG, "Size of sent data: " + temp.length);
+					//get item data
+					Call<List<ItemDatum>> itemCall = sApi.getItems(temp);
+					itemCall.enqueue(new Callback<List<ItemDatum>>()
+					{
+						@Override
+						public void onResponse(Response<List<ItemDatum>> response, Retrofit retrofit)
+						{
+							Log.d(TAG, response.code() + "");
+
+							//((PersonalBankAdapter)mAdapter).loadBankData(response.body());
+							sItemTable.storeItems(response.body());
+							mAdapter.notifyDataSetChanged();
+							mSwipeRefreshLayout.setRefreshing(false);
+						}
+
+						@Override
+						public void onFailure(Throwable t)
+						{
+							mSwipeRefreshLayout.setRefreshing(false);
+
+							Toast toast = Toast.makeText(getContext(), "Error while loading", Toast.LENGTH_SHORT);
+							toast.show();
+							Log.e(TAG, t.getMessage() + "");
+						}
+					});
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable t)
+			{
+				//getMaterial() failed
+				Toast toast = Toast.makeText(getContext(), "Error while loading" , Toast.LENGTH_SHORT);
+				toast.show();
+				Log.e(TAG, t.getMessage() + "");
+			}
+		});
+
+		//pull account material data and populate
+		Call<List<AccountMaterialDatum>> accountMatCall = sApi.getAccountMaterial();
+
 	}
 
 	public void getBankData()
@@ -116,7 +215,7 @@ public class PersonalBankFragment extends Fragment implements SwipeRefreshLayout
 				//send to adapter
 				Log.d(TAG, response.code() + "");
 
-				((PersonalBankAdapter)mAdapter).loadItemNumbers(response.body());
+				((PersonalMaterialAdapter)mAdapter).loadItemNumbers(response.body());
 				mSwipeRefreshLayout.setRefreshing(false);
 
 				//grab le ids

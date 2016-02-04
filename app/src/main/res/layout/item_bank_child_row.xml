@@ -22,7 +22,7 @@
 			android:layout_height="match_parent"
 			android:layout_marginLeft="10dp"
 			android:textAppearance="?android:attr/textAppearanceSmall"
-			android:text="Medium Text"
+			android:text=""
 			android:id="@+id/text_bank_child_row"/>
 
 </LinearLayout>

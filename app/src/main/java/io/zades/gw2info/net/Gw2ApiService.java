@@ -143,6 +143,10 @@ public interface Gw2ApiService
 //	);
 
 	@GET("materials")
+	Call<List<Integer>> getMaterials(
+	);
+
+	@GET("materials")
 	Call<List<MaterialDatum>> getMaterials(
 			@Query("ids") String ids
 	);

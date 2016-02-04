@@ -12,14 +12,14 @@ import io.zades.gw2info.events.NavigationItemClickedEvent;
 /**
  * Created by zades on 11/15/2015.
  */
-public class ChildNavigationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+public class NavigationItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 {
 	public TextView textView;
 	public ImageView imageView;
 
 	private Context mContext;
 
-	public ChildNavigationViewHolder(View itemView, Context context)
+	public NavigationItemViewHolder(View itemView, Context context)
 	{
 		super(itemView);
 		mContext = context;

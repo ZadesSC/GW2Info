@@ -4,6 +4,8 @@
 	<color name="primaryColorDark">#D32F2F</color>
 	<color name="accentColor">#4CAF50</color>
 	<color name="white">#FFFFFF</color>
+	<color name="black">#000000</color>
+
 	<color name="legendaryColor">#9614A0</color>
 	<color name="ascendedColor">#FA3C8C</color>
 	<color name="exoticColor">#FFA505</color>
@@ -12,4 +14,7 @@
 	<color name="fineColor">#91A5DC</color>
 	<color name="basicColor">#000000</color>
 	<color name="junkColor">#BEAAAA</color>
+
+	<color name="itemTextBlue">#6C94CF</color>
+	<color name="itemTextGreen">#39C639</color>
 </resources>

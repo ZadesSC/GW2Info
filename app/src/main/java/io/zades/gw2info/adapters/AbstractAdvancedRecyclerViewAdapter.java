@@ -1,17 +1,12 @@
 package io.zades.gw2info.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.widget.Toast;
 import de.greenrobot.event.EventBus;
 import io.zades.gw2info.events.AdvancedRecyclerViewClickedEvent;
 import io.zades.gw2info.models.AdvancedRecyclerViewDataModel;
 import io.zades.gw2info.models.AdvancedRecyclerViewParentDataModel;
-import io.zades.gw2info.models.ParentNavigationModel;
 
 /**
  * Created by zades on 12/4/2015.

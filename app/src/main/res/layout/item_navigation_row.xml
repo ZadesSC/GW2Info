@@ -15,7 +15,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="match_parent"
 			android:id="@+id/image_child_nav_row"
-			android:paddingLeft="16dp" android:layout_weight="0.12"/>
+			android:paddingLeft="16dp"/>
 	<!--android:src="@drawable/ic_launcher"/>-->
 
 	<TextView
