@@ -23,7 +23,7 @@ public class Gw2Api
 
 	private static Gw2Api sInstance = null;
 	private static final String ENDPOINT = "https://api.guildwars2.com/v2/";
-	private static final String API_KEY = BuildConfig.API_KEY;
+	private static final String API_KEY = ""; //= BuildConfig.API_KEY;
 
 	private final Retrofit retrofit;
 	private final Gw2ApiService service;
